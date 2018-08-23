@@ -25,3 +25,7 @@ test/data/
 # Gradle files
 /.gradle/
 /build/
+
+# VSCode stuff
+.vscode
+.settings
