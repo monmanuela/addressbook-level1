@@ -476,10 +476,20 @@ public class AddressBook {
      * @return list of persons in full model with name containing some of the keywords
      */
     private static ArrayList<HashMap<String, String>> getPersonsWithNameContainingAnyKeyword(Collection<String> keywords) {
+        Collection<String> lowercaseKeywords = new ArrayList<>();
+        for (String keyword : keywords) {
+            lowercaseKeywords.add(keyword.toLowerCase());
+        }
+
         final ArrayList<HashMap<String, String>> matchedPersons = new ArrayList<>();
         for (HashMap<String, String> person : getAllPersonsInAddressBook()) {
-            final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
-            if (!Collections.disjoint(wordsInName, keywords)) {
+            ArrayList<String> wordsInName = splitByWhitespace(getNameFromPerson(person));
+            Collection<String> lowercaseWordsInName = new ArrayList<>();
+            for (String name : wordsInName) {
+                lowercaseWordsInName.add(name.toLowerCase());
+            }
+            final Set<String> wordsInNameSet = new HashSet<>(lowercaseWordsInName);
+            if (!Collections.disjoint(wordsInNameSet, lowercaseKeywords)) {
                 matchedPersons.add(person);
             }
         }
